@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $blocking_enabled = get_option(Open_Wp_Email_Blocker::OPTION_BLOCKING_ENABLED, false);
+$redirect_emails = get_option(Open_Wp_Email_Blocker::OPTION_REDIRECT_EMAILS, '');
 ?>
 
 <div class="wrap">
@@ -21,6 +22,13 @@ $blocking_enabled = get_option(Open_Wp_Email_Blocker::OPTION_BLOCKING_ENABLED, f
                     <label for="<?php echo esc_attr(Open_Wp_Email_Blocker::OPTION_BLOCKING_ENABLED); ?>">
                         <?php esc_html_e('Check this box to enable email blocking.', 'owpeb'); ?>
                     </label>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php esc_html_e('Redirect Emails To', 'owpeb'); ?></th>
+                <td>
+                    <input type="text" name="<?php echo esc_attr(Open_Wp_Email_Blocker::OPTION_REDIRECT_EMAILS); ?>" value="<?php echo esc_attr( $redirect_emails ); ?>" size="50" />
+                    <p class="description"><?php esc_html_e('Enter email addresses separated by commas to redirect all emails to these addresses instead of blocking them.', 'owpeb'); ?></p>
                 </td>
             </tr>
         </table>

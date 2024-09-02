@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Open_Wp_Email_Blocker_Admin {
-    
+
     // The single instance of the class.
     private static $instance = null;
 
@@ -45,6 +45,10 @@ class Open_Wp_Email_Blocker_Admin {
         register_setting(
             'owpeb_options_group',
             Open_Wp_Email_Blocker::OPTION_BLOCKING_ENABLED 
+        );
+        register_setting(
+            'owpeb_options_group',
+            Open_Wp_Email_Blocker::OPTION_REDIRECT_EMAILS 
         );
     }
 
