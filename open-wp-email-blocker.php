@@ -18,6 +18,7 @@ define( 'OWPEB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Include the main class file.
 require_once OWPEB_PLUGIN_DIR . 'includes/class-email-blocker.php';
+require_once OWPEB_PLUGIN_DIR . 'includes/class-email-blocker-admin.php';
 
 // Register activation and deactivation hooks.
 register_activation_hook( __FILE__, array( 'Open_Wp_Email_Blocker', 'activate' ) );
@@ -25,4 +26,5 @@ register_deactivation_hook( __FILE__, array( 'Open_Wp_Email_Blocker', 'deactivat
 
 // Initialize the plugin.
 add_action( 'plugins_loaded', array( 'Open_Wp_Email_Blocker', 'get_instance' ) );
+add_action( 'plugins_loaded', array( 'Open_Wp_Email_Blocker_Admin', 'get_instance' ) );
 ?>

@@ -21,8 +21,8 @@ class Open_Wp_Email_Blocker {
 
     // Initialize the plugin.
     private function __construct() {
-        // Hook into wp_mail and block e-mails.
-        add_filter( 'wp_mail', array( $this, 'handle_emails' ), 10, 1 );
+        // Hook into phpmailer_init and block e-mails.
+        add_action( 'phpmailer_init', array( $this, 'handle_emails' ), 10, 1 );
 
         // Initialize options
         $this->init_options();
@@ -33,32 +33,33 @@ class Open_Wp_Email_Blocker {
      */
     public function init_options() {
         if ( false === get_option( self::OPTION_BLOCKING_ENABLED ) ) {
-            update_option( self::OPTION_BLOCKING_ENABLED, false );
+            update_option( self::OPTION_BLOCKING_ENABLED, true );
         }
     }
 
     /**
      * Handle e-mails sent by WordPress.
      *
-     * @param array $args Arguments passed to wp_mail function.
-     * @return array|false Modified arguments or false to block the email.
+     * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
      */
-    public function handle_emails( $args ) {
+    public function handle_emails( $phpmailer ) {
+        error_log('handlling emails');
+
         $blocking_enabled = filter_var( get_option( self::OPTION_BLOCKING_ENABLED, false ), FILTER_VALIDATE_BOOLEAN );
-        
+        error_log('blocking_enabled (type: ' . gettype($blocking_enabled) . '): ' . var_export($blocking_enabled, true));
+
         if ( $blocking_enabled ) {
-            error_log( 'E-mail blocked: ' . print_r( $args, true ) );
-            return false;
+            // Clear all recipients to effectively block the email
+            $phpmailer->ClearAllRecipients();
+            error_log( 'E-mail blocked');
         }
-        
-        return $args;
     }
 
     /**
      * Activation hook.
      */
     public static function activate() {
-        update_option( self::OPTION_BLOCKING_ENABLED, false );
+        update_option( self::OPTION_BLOCKING_ENABLED, true );
     }
 
     /**
